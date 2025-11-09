@@ -9,5 +9,8 @@ azure-servicebus
 azure-functions
 pytz
 azure-search-documents==11.4.0
+fastapi
+uvicorn
+gunicorn
 
 
