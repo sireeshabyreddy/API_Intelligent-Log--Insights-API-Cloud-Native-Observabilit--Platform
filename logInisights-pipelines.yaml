@@ -1,36 +1,34 @@
 # Python to Linux Web App on Azure
 # Build your Python project and deploy it to Azure as a Linux Web App.
-# Change python version to one thats appropriate for your application.
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+# Using a self-hosted agent pool named 'Default'
 
 trigger:
-- master
+- master  # Change to 'main' if your default branch is main
 
 variables:
-  # Azure Resource Manager connection created during pipeline creation
+  # Azure Resource Manager service connection
   azureServiceConnectionId: '7f2abc40-fa76-4fda-8403-32ad1f0801a4'
 
-  # Web app name
+  # Azure Web App name
   webAppName: 'LogInsightsApp'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-  # Environment name
+  # Environment name in Azure DevOps
   environmentName: 'LogInsightsApp'
 
-  # Project root folder. Point to the folder containing manage.py file.
+  # Project root folder (folder containing app.py)
   projectRoot: $(System.DefaultWorkingDirectory)
 
+  # Python version to use
   pythonVersion: '3.11'
 
 stages:
 - stage: Build
-  displayName: Build stage
+  displayName: 'Build Stage'
   jobs:
   - job: BuildJob
+    displayName: 'Build Python App'
     pool:
-      vmImage: $(vmImageName)
+      name: 'Default'  # Self-hosted agent pool
     steps:
     - task: UsePythonVersion@0
       inputs:
@@ -41,46 +39,45 @@ stages:
         python -m venv antenv
         source antenv/bin/activate
         python -m pip install --upgrade pip
-        pip install setup
         pip install -r requirements.text
       workingDirectory: $(projectRoot)
-      displayName: "Install requirements"
+      displayName: 'Install Python dependencies'
 
     - task: ArchiveFiles@2
-      displayName: 'Archive files'
+      displayName: 'Archive Project Files'
       inputs:
         rootFolderOrFile: '$(projectRoot)'
         includeRootFolder: false
         archiveType: zip
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         replaceExistingArchive: true
 
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      displayName: 'Upload package'
+    - upload: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      displayName: 'Upload Build Artifact'
       artifact: drop
 
 - stage: Deploy
-  displayName: 'Deploy Web App'
+  displayName: 'Deploy Stage'
   dependsOn: Build
   condition: succeeded()
   jobs:
-  - deployment: DeploymentJob
+  - deployment: DeployJob
+    displayName: 'Deploy to Azure Web App'
     pool:
-      vmImage: $(vmImageName)
+      name: 'Default'  # Self-hosted agent pool
     environment: $(environmentName)
     strategy:
       runOnce:
         deploy:
           steps:
-
           - task: UsePythonVersion@0
             inputs:
               versionSpec: '$(pythonVersion)'
-            displayName: 'Use Python version'
+            displayName: 'Use Python version for deployment'
 
           - task: AzureWebApp@1
-            displayName: 'Deploy Azure Web App : LogInsightsApp'
+            displayName: 'Deploy Web App: $(webAppName)'
             inputs:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
-              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
