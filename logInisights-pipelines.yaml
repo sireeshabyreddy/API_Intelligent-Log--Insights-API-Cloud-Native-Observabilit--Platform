@@ -39,7 +39,7 @@ stages:
         python -m venv antenv
         source antenv/bin/activate
         python -m pip install --upgrade pip
-        pip install -r requirements.text
+        pip install -r requirements.txt
       workingDirectory: $(projectRoot)
       displayName: 'Install Python dependencies'
 
