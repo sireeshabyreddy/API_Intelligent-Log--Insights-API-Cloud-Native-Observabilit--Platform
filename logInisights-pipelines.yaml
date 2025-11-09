@@ -1,32 +1,35 @@
-# Python to Linux Web App on Azure
-# Build your Python project and deploy it to Azure as a Linux Web App.
-# Using a self-hosted agent pool named 'Default'
+# ==========================================
+#  FastAPI - Azure Web App Deployment (Linux)
+# ==========================================
 
 trigger:
 - master  # Change to 'main' if your default branch is main
 
 variables:
-  # Azure Resource Manager service connection
+  # Azure Resource Manager service connection (from Project Settings → Service connections)
   azureServiceConnectionId: '7f2abc40-fa76-4fda-8403-32ad1f0801a4'
 
-  # Azure Web App name
+  # Azure Web App name (must match your App Service name)
   webAppName: 'LogInsightsApp'
 
-  # Environment name in Azure DevOps
+  # Azure environment name in DevOps
   environmentName: 'LogInsightsApp'
 
-  # Project root folder (folder containing app.py)
+  # Root directory of your FastAPI project (folder containing app.py)
   projectRoot: $(System.DefaultWorkingDirectory)
 
-  # Python version to use
+  # Python version
   pythonVersion: '3.11'
 
 stages:
+# ======================
+# Build Stage
+# ======================
 - stage: Build
   displayName: 'Build Stage'
   jobs:
   - job: BuildJob
-    displayName: 'Build Python App'
+    displayName: 'Build and Package FastAPI App'
     pool:
       name: 'Default'  # Self-hosted agent pool
     steps:
@@ -35,14 +38,14 @@ stages:
         versionSpec: '$(pythonVersion)'
       displayName: 'Use Python $(pythonVersion)'
 
+    #  Validate and install dependencies (optional check)
     - script: |
-        python -m venv antenv
-        source antenv/bin/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
       workingDirectory: $(projectRoot)
-      displayName: 'Install Python dependencies'
+      displayName: 'Install dependencies (for build verification)'
 
+    #  Archive source code (excluding venv)
     - task: ArchiveFiles@2
       displayName: 'Archive Project Files'
       inputs:
@@ -51,18 +54,31 @@ stages:
         archiveType: zip
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         replaceExistingArchive: true
+        #  Exclude local virtual environments and caches
+        exclude: |
+          antenv/**
+          venv/**
+          .venv/**
+          __pycache__/**
+          *.pyc
+          *.pyo
 
+    #  Upload the artifact for deployment
     - upload: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
       displayName: 'Upload Build Artifact'
       artifact: drop
 
+
+# ======================
+# Deploy Stage
+# ======================
 - stage: Deploy
   displayName: 'Deploy Stage'
   dependsOn: Build
   condition: succeeded()
   jobs:
   - deployment: DeployJob
-    displayName: 'Deploy to Azure Web App'
+    displayName: 'Deploy FastAPI App to Azure Web App'
     pool:
       name: 'Default'  # Self-hosted agent pool
     environment: $(environmentName)
