@@ -76,22 +76,6 @@ def top_users(service_name: str, top: int = Query(5, ge=1, le=20)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@metrics_router.get("/component-distribution/{service_name}")
-def component_distribution(service_name: str):
-    try:
-        data = metrics_service.get_component_distribution(service_name)
-        return {"service": service_name, "component_distribution": data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@metrics_router.get("/namespace-distribution/{service_name}")
-def namespace_distribution(service_name: str):
-    try:
-        data = metrics_service.get_namespace_distribution(service_name)
-        return {"service": service_name, "namespace_distribution": data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
 
 
 # Include router
