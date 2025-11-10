@@ -29,6 +29,8 @@ def startup_event():
     ensure_subscriptions()
 
 
+
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome! Your app is running."}

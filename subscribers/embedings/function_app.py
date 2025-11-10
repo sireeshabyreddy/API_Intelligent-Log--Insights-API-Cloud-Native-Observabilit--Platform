@@ -1,96 +1,25 @@
-import azure.functions as func
-import logging
-import os
-import uuid
 import json
-import traceback
-import re
-from azure.search.documents import SearchClient
-from azure.core.credentials import AzureKeyCredential
-from openai import AzureOpenAI
+import os
+import hashlib
+from typing import List, Dict, Set, Any
+from config import DEDUP_CACHE_FOLDER
 
-# -------------------------------
-# Azure Function App initialization
-# -------------------------------
-app = func.FunctionApp()
+os.makedirs(DEDUP_CACHE_FOLDER, exist_ok=True)
 
-# -------------------------------
-# Environment Variables
-# -------------------------------
-service_name = os.getenv("SEARCH_SERVICE_NAME")
-api_key = os.getenv("SEARCH_API_KEY")
-index_name = os.getenv("SEARCH_INDEX_NAME", "log-vector-index")
-azure_openai_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-azure_openai_key = os.getenv("AZURE_OPENAI_KEY")
-embedding_model = "text-embedding-ada-002"
 
-# Validate environment variables
-missing_vars = [
-    v for v in ["SEARCH_SERVICE_NAME", "SEARCH_API_KEY", "AZURE_OPENAI_ENDPOINT", "AZURE_OPENAI_KEY"]
-    if not os.getenv(v)
-]
-if missing_vars:
-    logging.error(f"Missing environment variables: {', '.join(missing_vars)}")
-
-# -------------------------------
-# Initialize clients once
-# -------------------------------
-search_client = SearchClient(
-    endpoint=f"https://{service_name}.search.windows.net",
-    index_name=index_name,
-    credential=AzureKeyCredential(api_key)
-)
-
-azure_openai_client = AzureOpenAI(
-    api_key=azure_openai_key,
-    azure_endpoint=azure_openai_endpoint,
-    api_version=os.getenv("OPENAI_API_VERSION", "2024-06-01")
-)
-
-# -------------------------------
-# Helper: Generate embedding
-# -------------------------------
-def generate_embedding(text: str):
-    if not text:
-        return []
-    try:
-        response = azure_openai_client.embeddings.create(
-            model=embedding_model,
-            input=text
-        )
-        return response.data[0].embedding
-    except Exception:
-        logging.error(f"Failed to generate embedding:\n{traceback.format_exc()}")
-        return []
-
-# -------------------------------
-# Helper: Extract JSON from text
-# -------------------------------
-def extract_json_from_text(raw_text: str):
-    """
-    Scan each line for JSON objects; if plain text, wrap as log dict.
-    """
-    json_objects = []
-    for line in raw_text.splitlines():
-        line = line.strip()
-        if not line:
-            continue
+def load_dedup_cache(log_type: str) -> Set[str]:
+    """Load deduplication cache for a given log type."""
+    file_path = os.path.join(DEDUP_CACHE_FOLDER, f"dedup_state_{log_type}.json")
+    if os.path.exists(file_path):
         try:
-            obj = json.loads(line)
-            # Normalize "Message" key if exists
-            if "Message" in obj:
-                obj["message"] = obj.pop("Message")
-            json_objects.append({"log": obj})
-        except json.JSONDecodeError:
-            json_objects.append({"log": {"message": line}})
-    return json_objects
+            with open(file_path, "r") as f:
+                return set(json.load(f))
+        except Exception:
+            return set()
+    return set()
 
-# -------------------------------
-# Helper: Enrich numeric & timestamp fields
-# -------------------------------
-def enrich_log_fields(log_data: dict):
-    text = log_data.get("message", "")
 
+<<<<<<< HEAD
     # Extract timestamp (ISO format)
     ts_match = re.search(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?)", text)
     if ts_match:
@@ -235,3 +164,33 @@ def Vectorembeddingsfunc(azservicebus: func.ServiceBusMessage):
             logging.error(f"Failed to upload document: {result[0].error_message}")
     except Exception:
         logging.error(f"Error uploading to Azure Cognitive Search:\n{traceback.format_exc()}")
+=======
+def save_dedup_cache(log_type: str, hashes: Set[str]) -> None:
+    """Save deduplication cache for a given log type."""
+    file_path = os.path.join(DEDUP_CACHE_FOLDER, f"dedup_state_{log_type}.json")
+    try:
+        with open(file_path, "w") as f:
+            json.dump(list(hashes), f)
+    except Exception as e:
+        print(f"⚠️ Failed to save dedup cache: {e}")
+
+
+def deduplicate_logs(raw_batch: List[Dict[str, Any]], log_type: str) -> List[Dict[str, Any]]:
+    """
+    Deduplicate logs based on SHA256 hash of JSON string.
+    Returns list of unique logs.
+    """
+    sent_hashes = load_dedup_cache(log_type)
+    unique_batch = []
+    new_hashes = set()
+
+    for log in raw_batch:
+        log_str = json.dumps(log, sort_keys=True)
+        log_hash = hashlib.sha256(log_str.encode('utf-8')).hexdigest()
+        if log_hash not in sent_hashes:
+            unique_batch.append(log)
+            new_hashes.add(log_hash)
+
+    save_dedup_cache(log_type, sent_hashes | new_hashes)
+    return unique_batch
+>>>>>>> neworigin/master
