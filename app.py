@@ -28,6 +28,10 @@ def startup_event():
     ensure_topic()
     ensure_subscriptions()
 
+@app.get("/")
+def read_root():
+    return {"message": "Welcome! Your app is running."}
+
 # -----------------------
 # Semantic Search Endpoint
 # -----------------------
