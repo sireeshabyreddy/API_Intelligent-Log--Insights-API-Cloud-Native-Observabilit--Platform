@@ -1,0 +1,50 @@
+2025-11-10T06:04:18.781530Z ERROR auth-service: txn=- resp_ms=961 - CPU usage at 95% for 5m user=120894 ip=200.202.240.120 host=- trace=1f579007b6ad4e088ad18ee0
+2025-11-10T06:04:18.792707Z ERROR api-gateway: txn=- resp_ms=488 - CPU usage at 95% for 5m user=- ip=178.193.30.245 host=host-274 trace=ff5256773e3c4fe6b6f7bd1f
+2025-11-10T06:04:18.796883Z INFO billing: txn=- resp_ms=1501 - Transaction committed user=- ip=145.92.231.36 host=host-41 trace=235a8f8cc4f14ee494c42498
+2025-11-10T06:04:18.796883Z CRITICAL payments: txn=- resp_ms=1587 - NullReferenceException in module user=- ip=23.47.23.66 host=- trace=7e46c8fffb054a47bf7b799a
+2025-11-10T06:04:18.801065Z ERROR analytics: txn=- resp_ms=1990 - Transaction committed user=- ip=29.139.44.84 host=host-29 trace=e4111813ef6447a9b5a7e751
+2025-11-10T06:04:18.801065Z CRITICAL auth-service: txn=txn-db7cc36c resp_ms=1054 - Failed login attempt user=- ip=187.190.144.17 host=host-67 trace=1758abb2efc44eb3b816039e
+2025-11-10T06:04:18.801065Z CRITICAL payments: txn=- resp_ms=1464 - Database connection timeout user=562994 ip=208.8.164.84 host=- trace=82780d85795b412688c06728
+2025-11-10T06:04:18.801065Z INFO frontend: txn=- resp_ms=79 - Transaction committed user=761432 ip=212.247.80.198 host=host-204 trace=45655baef1694d64800d8292
+2025-11-10T06:04:18.802062Z DEBUG api-gateway: txn=txn-4686616e resp_ms=1201 - CPU usage at 95% for 5m user=- ip=189.63.108.234 host=- trace=3d73143ad4f84cb9a191df88
+2025-11-10T06:04:18.802062Z ERROR inventory: txn=txn-4f5899fd resp_ms=1568 - OutOfMemoryException user=- ip=206.198.51.17 host=- trace=3507634c063044879e48d4b1
+2025-11-10T06:04:18.802062Z ERROR api-gateway: txn=txn-b226ac83 resp_ms=2737 - Database connection timeout user=464810 ip=108.222.178.227 host=host-111 trace=46164b4387ba4305ad74eff8
+2025-11-10T06:04:18.802062Z INFO api-gateway: txn=txn-761be2ed resp_ms=816 - Policy updated user=- ip=57.242.17.206 host=- trace=cf5ed51763eb4fdfbed661a1
+2025-11-10T06:04:18.802062Z CRITICAL payments: txn=- resp_ms=1667 - Transaction committed user=620492 ip=223.51.165.28 host=host-420 trace=cd2bc9ee4831492186b33c62
+2025-11-10T06:04:18.802062Z ERROR worker: txn=txn-0ff21259 resp_ms=2362 - Hardware temperature threshold exceeded user=- ip=201.156.1.34 host=- trace=25ea47e2a28343ca9e9d845e
+2025-11-10T06:04:18.802062Z INFO orders: txn=txn-fd462ce5 resp_ms=1964 - Policy updated user=- ip=181.224.248.200 host=host-183 trace=629d1fbb04c64859870d9585
+2025-11-10T06:04:18.802062Z ERROR payments: txn=- resp_ms=2320 - Hardware temperature threshold exceeded user=872392 ip=220.190.250.201 host=host-237 trace=150770de40ba46629189a434
+2025-11-10T06:04:18.802062Z CRITICAL analytics: txn=txn-e9a3582a resp_ms=228 - Failed login attempt user=- ip=161.115.214.179 host=host-380 trace=54b2b22a379c4ef98ea0feb9
+2025-11-10T06:04:18.802062Z WARN payments: txn=- resp_ms=2310 - Pod restarted by kubelet user=- ip=140.228.248.91 host=- trace=1516bcff51af4f06a8804787
+2025-11-10T06:04:18.802062Z DEBUG db: txn=- resp_ms=2339 - OutOfMemoryException user=493805 ip=180.50.115.92 host=host-215 trace=1e351a2faf1641748e662e1d
+2025-11-10T06:04:18.802062Z CRITICAL db: txn=- resp_ms=846 - Failed login attempt user=410238 ip=29.68.193.8 host=host-151 trace=b37c5c7c95314bb49fe0cfb4
+2025-11-10T06:04:18.803062Z INFO billing: txn=txn-1c7e9dfb resp_ms=2202 - Slow GC pause detected user=- ip=217.73.25.153 host=host-433 trace=cb049a60d8994eb0b510af84
+2025-11-10T06:04:18.803062Z DEBUG analytics: txn=- resp_ms=1363 - Slow GC pause detected user=- ip=137.24.118.236 host=host-162 trace=18b474169e1a43d58fb13926
+2025-11-10T06:04:18.803062Z WARN api-gateway: txn=txn-424dc3c9 resp_ms=416 - OutOfMemoryException user=- ip=213.78.76.124 host=host-103 trace=39d324e2c0a6490fbc8fb2b1
+2025-11-10T06:04:18.803062Z WARN worker: txn=txn-b1756339 resp_ms=433 - Suspicious token reuse detected user=- ip=17.53.96.241 host=host-380 trace=f32f9a260e4b4808a17db3dd
+2025-11-10T06:04:18.803062Z DEBUG frontend: txn=txn-720bf0ba resp_ms=2276 - OutOfMemoryException user=- ip=189.136.70.80 host=host-430 trace=9a97ba93d2fa48a1ab7dfcbd
+2025-11-10T06:04:18.803062Z ERROR frontend: txn=- resp_ms=1732 - OutOfMemoryException user=- ip=153.39.235.153 host=host-125 trace=b5f8b09b82f44d5ba0a18a3e
+2025-11-10T06:04:18.803062Z CRITICAL auth-service: txn=txn-c9046a5a resp_ms=1461 - Pod restarted by kubelet user=- ip=164.37.50.172 host=host-427 trace=76f785ed9c0d45e586cd6181
+2025-11-10T06:04:18.803062Z CRITICAL db: txn=- resp_ms=2704 - Transaction committed user=511438 ip=167.208.93.187 host=host-308 trace=938c5bb609a245a689005606
+2025-11-10T06:04:18.803062Z ERROR analytics: txn=txn-20bb3d6f resp_ms=2490 - Failed login attempt user=188335 ip=183.201.16.81 host=- trace=88acea8e916a42eaa9f5ada0
+2025-11-10T06:04:18.803062Z DEBUG analytics: txn=txn-ac43431c resp_ms=713 - OutOfMemoryException user=- ip=26.54.54.3 host=host-315 trace=178d5ee5dd334e0cb478769e
+2025-11-10T06:04:18.803062Z ERROR inventory: txn=- resp_ms=1906 - Payment captured user=953394 ip=107.158.73.74 host=host-446 trace=dad21d540de74ff394a00067
+2025-11-10T06:04:18.803062Z CRITICAL worker: txn=- resp_ms=2577 - Suspicious token reuse detected user=- ip=173.56.95.177 host=- trace=480844620ae8474d85e52657
+2025-11-10T06:04:18.803062Z ERROR orders: txn=- resp_ms=998 - Payment captured user=- ip=177.198.51.43 host=host-405 trace=164bbcd42daf463a8c07a4cc
+2025-11-10T06:04:18.804062Z DEBUG db: txn=txn-16b3573e resp_ms=768 - Hardware temperature threshold exceeded user=- ip=2.192.198.63 host=host-37 trace=2294ff09e616427a8ff635ed
+2025-11-10T06:04:18.804062Z INFO worker: txn=txn-35cacda0 resp_ms=2302 - Payment captured user=623631 ip=138.78.240.71 host=host-49 trace=b1ab68f959ba47b0917f5b83
+2025-11-10T06:04:18.804062Z WARN kube-proxy: txn=- resp_ms=2014 - Suspicious token reuse detected user=- ip=39.185.137.22 host=host-245 trace=534be8ab9abd4b25aa64d446
+2025-11-10T06:04:18.804062Z WARN db: txn=- resp_ms=595 - Policy updated user=805568 ip=123.140.210.66 host=- trace=e6ace4e660d04aa08c897917
+2025-11-10T06:04:18.804062Z ERROR api-gateway: txn=- resp_ms=2716 - Pod restarted by kubelet user=- ip=8.68.89.11 host=host-270 trace=bc230e9229a84fea99db76c6
+2025-11-10T06:04:18.804062Z ERROR inventory: txn=txn-e7f3d033 resp_ms=1412 - CPU usage at 95% for 5m user=555335 ip=66.229.73.242 host=host-18 trace=a365d13056ab4ea49789d885
+2025-11-10T06:04:18.804062Z DEBUG worker: txn=- resp_ms=2829 - Policy updated user=267814 ip=211.112.146.203 host=host-279 trace=c159483ed0e547a8ba179c4f
+2025-11-10T06:04:18.804062Z INFO db: txn=- resp_ms=425 - Service endpoint updated user=- ip=80.118.27.12 host=- trace=e0d0cd3ed443456fbd47d123
+2025-11-10T06:04:18.804062Z CRITICAL frontend: txn=txn-b926fc5f resp_ms=2392 - Database connection timeout user=491143 ip=77.199.20.214 host=- trace=d2b61af90c6b4612bfffdb26
+2025-11-10T06:04:18.804062Z INFO auth-service: txn=- resp_ms=2377 - Policy updated user=- ip=205.164.55.208 host=- trace=b4e2fb1d3ecf4b238c24570d
+2025-11-10T06:04:18.804062Z WARN worker: txn=- resp_ms=828 - NullReferenceException in module user=- ip=197.45.144.114 host=host-485 trace=c792b97854b44362abae2bdf
+2025-11-10T06:04:18.804062Z INFO analytics: txn=- resp_ms=435 - NullReferenceException in module user=- ip=77.166.244.66 host=- trace=88647c80988547d188a234c5
+2025-11-10T06:04:18.804062Z INFO inventory: txn=txn-5760da31 resp_ms=948 - Database connection timeout user=289791 ip=188.192.86.36 host=host-456 trace=3c500a869af7458abe13799a
+2025-11-10T06:04:18.805029Z DEBUG api-gateway: txn=- resp_ms=1476 - Suspicious token reuse detected user=- ip=140.73.217.104 host=- trace=171ca8e0d372450abca08e5e
+2025-11-10T06:04:18.805029Z ERROR analytics: txn=- resp_ms=290 - Policy updated user=- ip=212.78.138.255 host=host-99 trace=84a57fc79b1b4c88adb83e5b
+2025-11-10T06:04:18.805029Z WARN api-gateway: txn=- resp_ms=2184 - Database connection timeout user=- ip=205.158.1.182 host=host-270 trace=13b7b54869d743d4a0f892b2
+2025-11-10T06:04:18.805029Z CRITICAL frontend: txn=- resp_ms=2764 - Database connection timeout user=- ip=211.241.156.128 host=- trace=058e3543622044179dc7865e

@@ -1,0 +1,921 @@
+[
+    {
+        "timestamp": "2025-11-06T22:42:28.961500Z",
+        "service": "worker",
+        "level": "CRITICAL",
+        "log_type": "application",
+        "message": "Unhandled exception in handler",
+        "trace_id": "5d552c54a59947b38e020c996bbf2894",
+        "span_id": "269b7c22112143b1",
+        "user_id": "107822",
+        "client_ip": "50.130.85.77",
+        "host": null,
+        "error_code": "PAY_01",
+        "tags": [],
+        "transaction_id": "txn-d02ad1ea5ac4",
+        "amount": 579.98,
+        "currency": "USD"
+    },
+    {
+        "timestamp": "2025-11-03T17:09:28.961500Z",
+        "service": "orders",
+        "level": "INFO",
+        "log_type": "transaction",
+        "message": "Failed login attempt",
+        "trace_id": "d3437251733046338e10a729d35bf5bb",
+        "span_id": "d1d6f02e79c04d50",
+        "user_id": "367380",
+        "client_ip": "86.14.168.95",
+        "host": null,
+        "error_code": "ERR001",
+        "tags": [],
+        "transaction_id": "txn-c4eb650cc370",
+        "amount": 913.0,
+        "currency": "EUR"
+    },
+    {
+        "timestamp": "2025-11-09T23:14:28.962498Z",
+        "service": "shipping",
+        "level": "INFO",
+        "log_type": "system",
+        "message": "Service endpoint updated",
+        "trace_id": "0bf7ac6ebd424c54b8e2a2309e24c3e3",
+        "span_id": "14dbceec170e4035",
+        "user_id": null,
+        "client_ip": "86.28.128.79",
+        "host": "host-457",
+        "error_code": "NET_02",
+        "tags": [
+            "cache"
+        ]
+    },
+    {
+        "timestamp": "2025-11-08T23:27:28.962498Z",
+        "service": "db",
+        "level": "DEBUG",
+        "log_type": "application",
+        "message": "Unhandled exception in handler",
+        "trace_id": "0cd50e0ede904759ac9640863facc717",
+        "span_id": "f3cda28cbd04406c",
+        "user_id": "159319",
+        "client_ip": "210.210.130.180",
+        "host": null,
+        "error_code": "NET_02",
+        "tags": [],
+        "transaction_id": "txn-730b05091e86",
+        "amount": 983.84,
+        "currency": "EUR"
+    },
+    {
+        "timestamp": "2025-11-08T09:33:28.962498Z",
+        "service": "shipping",
+        "level": "INFO",
+        "log_type": "application",
+        "message": "Database connection error",
+        "trace_id": "868b9f06c3b849e39cb1af49f5e54fce",
+        "span_id": "2057d2f8e8b64ac6",
+        "user_id": "516891",
+        "client_ip": "101.95.58.17",
+        "host": "host-112",
+        "error_code": "PAY_01",
+        "tags": []
+    },
+    {
+        "timestamp": "2025-11-09T12:21:28.962498Z",
+        "service": "billing",
+        "level": "ERROR",
+        "log_type": "transaction",
+        "message": "Failed login attempt",
+        "trace_id": "601a8875b71e424da847f474df5f9b38",
+        "span_id": "6ddf7f8e902c4b54",
+        "user_id": null,
+        "client_ip": "218.124.151.32",
+        "host": "host-434",
+        "error_code": "E1002",
+        "tags": [
+            "retry"
+        ]
+    },
+    {
+        "timestamp": "2025-11-07T12:14:28.962498Z",
+        "service": "kube-proxy",
+        "level": "WARN",
+        "log_type": "application",
+        "message": "Service endpoint updated",
+        "trace_id": "8d55f082894c4400ad602ebcb4e976d9",
+        "span_id": "d9d8740593cd4046",
+        "user_id": "981247",
+        "client_ip": "228.125.217.149",
+        "host": "host-67",
+        "error_code": "NET_02",
+        "tags": [
+            "ingest",
+            "auth",
+            "payment"
+        ]
+    },
+    {
+        "timestamp": "2025-11-03T15:39:28.962498Z",
+        "service": "shipping",
+        "level": "INFO",
+        "log_type": "cloud_container",
+        "message": "Transaction rolled back",
+        "trace_id": "91e33db63ff64e2ebd7c987fbaf7aaba",
+        "span_id": "e6c4ceb7172f46b3",
+        "user_id": "985963",
+        "client_ip": "187.211.176.233",
+        "host": "host-123",
+        "error_code": "NET_02",
+        "tags": [
+            "payment",
+            "ingest"
+        ],
+        "transaction_id": "txn-2872768183e7",
+        "amount": 577.47,
+        "currency": "EUR"
+    },
+    {
+        "timestamp": "2025-11-08T03:43:28.963498Z",
+        "service": "kube-proxy",
+        "level": "CRITICAL",
+        "log_type": "security",
+        "message": "Database connection error",
+        "trace_id": "6651b21adecf4fdf8018c765d36f3cbc",
+        "span_id": "78c5e044d082480f",
+        "user_id": null,
+        "client_ip": "94.208.151.95",
+        "host": null,
+        "error_code": "NET_02",
+        "tags": [
+            "auth",
+            "ingest",
+            "db"
+        ],
+        "transaction_id": "txn-d897febb215c",
+        "amount": 66.34,
+        "currency": "USD",
+        "k8s_namespace": "default",
+        "pod": "pod-608"
+    },
+    {
+        "timestamp": "2025-11-06T23:34:28.963498Z",
+        "service": "inventory",
+        "level": "ERROR",
+        "log_type": "security",
+        "message": "Failed login attempt",
+        "trace_id": "7b8dabfe4009461abbcf6c7d5c3863d8",
+        "span_id": "8ef8d01d98a94f2d",
+        "user_id": "635933",
+        "client_ip": "38.35.81.55",
+        "host": null,
+        "error_code": "NET_02",
+        "tags": [
+            "auth"
+        ],
+        "transaction_id": "txn-42036699f4fa",
+        "amount": 825.09,
+        "currency": "EUR"
+    },
+    {
+        "timestamp": "2025-11-05T16:18:28.963498Z",
+        "service": "shipping",
+        "level": "CRITICAL",
+        "log_type": "transaction",
+        "message": "System shutdown initiated",
+        "trace_id": "9a56a19bafc946bdb0deb3d60b0b31a8",
+        "span_id": "4d69019adcd8483d",
+        "user_id": "982272",
+        "client_ip": "138.67.71.42",
+        "host": null,
+        "error_code": "E1001",
+        "tags": [
+            "retry"
+        ]
+    },
+    {
+        "timestamp": "2025-11-05T13:18:28.964506Z",
+        "service": "inventory",
+        "level": "DEBUG",
+        "log_type": "transaction",
+        "message": "Service endpoint updated",
+        "trace_id": "fa63687eacbe4510a7c149581a5ff9fc",
+        "span_id": "d77b8841054f4ef3",
+        "user_id": "542451",
+        "client_ip": "213.248.22.245",
+        "host": null,
+        "error_code": "NET_02",
+        "tags": [
+            "auth",
+            "db",
+            "search"
+        ],
+        "transaction_id": "txn-e7377b79ea90",
+        "amount": 493.29,
+        "currency": "EUR",
+        "k8s_namespace": "default",
+        "pod": "pod-926"
+    },
+    {
+        "timestamp": "2025-11-03T18:16:28.964506Z",
+        "service": "frontend",
+        "level": "DEBUG",
+        "log_type": "cloud_container",
+        "message": "System shutdown initiated",
+        "trace_id": "d613d2821e304f01aedd4c22696a0821",
+        "span_id": "62dba9b813e84b1a",
+        "user_id": "498799",
+        "client_ip": "170.50.160.72",
+        "host": null,
+        "error_code": "NET_01",
+        "tags": [
+            "retry"
+        ],
+        "transaction_id": "txn-730da5279c5a",
+        "amount": 688.8,
+        "currency": "INR"
+    },
+    {
+        "timestamp": "2025-11-08T03:02:28.965493Z",
+        "service": "billing",
+        "level": "DEBUG",
+        "log_type": "application",
+        "message": "Cache miss for key",
+        "trace_id": "1327c8f394e6470d8a4896edd31e1d59",
+        "span_id": "c02db2e1e5b34fca",
+        "user_id": "426466",
+        "client_ip": "24.231.14.164",
+        "host": null,
+        "error_code": "E1002",
+        "tags": [
+            "auth"
+        ],
+        "k8s_namespace": "default",
+        "pod": "pod-566"
+    },
+    {
+        "timestamp": "2025-11-03T12:59:28.965493Z",
+        "service": "orders",
+        "level": "INFO",
+        "log_type": "application",
+        "message": "Payment captured",
+        "trace_id": "1bb9d994686541e687d50a94ca073dcc",
+        "span_id": "79f82c9d78944a4d",
+        "user_id": "458089",
+        "client_ip": "117.200.14.188",
+        "host": "host-179",
+        "error_code": "NET_01",
+        "tags": [
+            "cache"
+        ]
+    },
+    {
+        "timestamp": "2025-11-09T17:43:28.966499Z",
+        "service": "worker",
+        "level": "INFO",
+        "log_type": "system",
+        "message": "Cache miss for key",
+        "trace_id": "a9b6b9aff8a54d9c895da0ef087fa45c",
+        "span_id": "3e21ba5981a440a6",
+        "user_id": "153907",
+        "client_ip": "115.30.141.146",
+        "host": null,
+        "error_code": "NET_02",
+        "tags": [
+            "retry"
+        ],
+        "transaction_id": "txn-6d060f5d6e3a",
+        "amount": 924.92,
+        "currency": "USD"
+    },
+    {
+        "timestamp": "2025-11-07T04:48:28.966499Z",
+        "service": "orders",
+        "level": "DEBUG",
+        "log_type": "transaction",
+        "message": "Cache miss for key",
+        "trace_id": "14de4610a4ea4fc6b8cc0f2081c7e222",
+        "span_id": "0a120283570248b8",
+        "user_id": "955704",
+        "client_ip": "61.205.121.163",
+        "host": null,
+        "error_code": "NET_01",
+        "tags": [
+            "db",
+            "auth"
+        ],
+        "transaction_id": "txn-1e07577445b5",
+        "amount": 560.23,
+        "currency": "USD"
+    },
+    {
+        "timestamp": "2025-11-07T01:42:28.967769Z",
+        "service": "billing",
+        "level": "INFO",
+        "log_type": "transaction",
+        "message": "Service endpoint updated",
+        "trace_id": "2419381b9fa144b4bc3bd5ac20e34799",
+        "span_id": "d6da2b1409754010",
+        "user_id": "922797",
+        "client_ip": "35.248.179.25",
+        "host": "host-405",
+        "error_code": "E1001",
+        "tags": [],
+        "transaction_id": "txn-56d4dbbcfc98",
+        "amount": 14.71,
+        "currency": "USD"
+    },
+    {
+        "timestamp": "2025-11-07T09:49:28.967769Z",
+        "service": "worker",
+        "level": "INFO",
+        "log_type": "cloud_container",
+        "message": "Unhandled exception in handler",
+        "trace_id": "a970705aeae24a8c9e5b562db2e68e83",
+        "span_id": "d7137fb4b22a40ea",
+        "user_id": "818026",
+        "client_ip": "104.227.62.92",
+        "host": "host-276",
+        "error_code": "ERR001",
+        "tags": [
+            "cache"
+        ]
+    },
+    {
+        "timestamp": "2025-11-06T18:30:28.967769Z",
+        "service": "worker",
+        "level": "CRITICAL",
+        "log_type": "transaction",
+        "message": "Database connection error",
+        "trace_id": "c551d37129774d86826666b06e1205b2",
+        "span_id": "77105468a33c47f5",
+        "user_id": "725930",
+        "client_ip": "87.236.252.42",
+        "host": "host-39",
+        "error_code": "E1001",
+        "tags": [
+            "payment"
+        ]
+    },
+    {
+        "timestamp": "2025-11-10T00:28:28.967769Z",
+        "service": "inventory",
+        "level": "DEBUG",
+        "log_type": "security",
+        "message": "Transaction rolled back",
+        "trace_id": "4292ed74e4e04901ab0f94ddde62b42c",
+        "span_id": "257aa91794be4783",
+        "user_id": "181001",
+        "client_ip": "73.157.201.210",
+        "host": "host-96",
+        "error_code": "NET_03",
+        "tags": [
+            "cache"
+        ]
+    },
+    {
+        "timestamp": "2025-11-03T17:54:28.967769Z",
+        "service": "inventory",
+        "level": "INFO",
+        "log_type": "application",
+        "message": "Payment captured",
+        "trace_id": "cb67297980ea44f19af076895fe48266",
+        "span_id": "e61983adfb254241",
+        "user_id": null,
+        "client_ip": "118.55.26.44",
+        "host": "host-128",
+        "error_code": "NET_01",
+        "tags": [
+            "ingest"
+        ]
+    },
+    {
+        "timestamp": "2025-11-04T20:35:28.968790Z",
+        "service": "frontend",
+        "level": "DEBUG",
+        "log_type": "system",
+        "message": "Unhandled exception in handler",
+        "trace_id": "4ca91d6a9e384ff3b9f8cd03b53fd7f8",
+        "span_id": "23adc7f711e04e8b",
+        "user_id": "963393",
+        "client_ip": "75.20.238.24",
+        "host": "host-114",
+        "error_code": "NET_01",
+        "tags": [],
+        "transaction_id": "txn-21f6534a5b36",
+        "amount": 974.44,
+        "currency": "USD",
+        "k8s_namespace": "production",
+        "pod": "pod-602"
+    },
+    {
+        "timestamp": "2025-11-09T02:38:28.968790Z",
+        "service": "inventory",
+        "level": "DEBUG",
+        "log_type": "cloud_container",
+        "message": "Database connection error",
+        "trace_id": "7f801e352b57443cacea8399e927298e",
+        "span_id": "785e8cc9216b465d",
+        "user_id": "150803",
+        "client_ip": "100.93.71.70",
+        "host": null,
+        "error_code": "NET_01",
+        "tags": [
+            "retry"
+        ],
+        "transaction_id": "txn-60a3674b531e",
+        "amount": 211.12,
+        "currency": "USD"
+    },
+    {
+        "timestamp": "2025-11-08T18:59:28.968790Z",
+        "service": "orders",
+        "level": "INFO",
+        "log_type": "application",
+        "message": "System shutdown initiated",
+        "trace_id": "7cfac94d2b1d4fe9b0eacc9a3f87375f",
+        "span_id": "b4d9a4354b6946b8",
+        "user_id": "575649",
+        "client_ip": "132.182.82.247",
+        "host": "host-374",
+        "error_code": "NET_02",
+        "tags": [
+            "search"
+        ]
+    },
+    {
+        "timestamp": "2025-11-06T05:04:28.968790Z",
+        "service": "orders",
+        "level": "CRITICAL",
+        "log_type": "transaction",
+        "message": "Failed login attempt",
+        "trace_id": "cb6c9fb17894471386d2a47a1f185de8",
+        "span_id": "46b8194dfa274770",
+        "user_id": "123452",
+        "client_ip": "176.250.147.220",
+        "host": null,
+        "error_code": "PAY_01",
+        "tags": [
+            "cache",
+            "retry",
+            "search"
+        ]
+    },
+    {
+        "timestamp": "2025-11-06T10:57:28.968790Z",
+        "service": "orders",
+        "level": "ERROR",
+        "log_type": "security",
+        "message": "Transaction rolled back",
+        "trace_id": "6e90173f5fc948d79359864c5772329e",
+        "span_id": "de4136b5b4754711",
+        "user_id": "884022",
+        "client_ip": "161.97.205.158",
+        "host": null,
+        "error_code": "NET_01",
+        "tags": [
+            "retry",
+            "auth",
+            "db"
+        ],
+        "transaction_id": "txn-ee98c59d38c1",
+        "amount": 520.75,
+        "currency": "INR"
+    },
+    {
+        "timestamp": "2025-11-07T13:43:28.970053Z",
+        "service": "inventory",
+        "level": "DEBUG",
+        "log_type": "cloud_container",
+        "message": "Database connection error",
+        "trace_id": "3d11e14910f349039a711c64c097172e",
+        "span_id": "640c5240a4b64e82",
+        "user_id": "142937",
+        "client_ip": "138.90.177.201",
+        "host": null,
+        "error_code": "ERR001",
+        "tags": [
+            "payment",
+            "ingest",
+            "auth"
+        ]
+    },
+    {
+        "timestamp": "2025-11-05T03:23:28.970053Z",
+        "service": "orders",
+        "level": "ERROR",
+        "log_type": "transaction",
+        "message": "Unhandled exception in handler",
+        "trace_id": "facaa3a10dec4b4b8569ffc65eff3509",
+        "span_id": "2bc05ce9e9c64479",
+        "user_id": "779255",
+        "client_ip": "193.75.227.15",
+        "host": "host-491",
+        "error_code": "E1002",
+        "tags": [
+            "payment",
+            "search",
+            "auth"
+        ],
+        "k8s_namespace": "default",
+        "pod": "pod-222"
+    },
+    {
+        "timestamp": "2025-11-05T00:47:28.970053Z",
+        "service": "shipping",
+        "level": "DEBUG",
+        "log_type": "application",
+        "message": "Transaction rolled back",
+        "trace_id": "bedf93c7e3de4c76b573a129eef1d213",
+        "span_id": "4f95e7e83dcf4dd0",
+        "user_id": null,
+        "client_ip": "67.98.41.243",
+        "host": "host-109",
+        "error_code": "E1002",
+        "tags": [
+            "search",
+            "retry",
+            "db"
+        ]
+    },
+    {
+        "timestamp": "2025-11-10T01:51:28.970053Z",
+        "service": "orders",
+        "level": "CRITICAL",
+        "log_type": "system",
+        "message": "Unhandled exception in handler",
+        "trace_id": "5262b08026634c4a925c30109bae6fdf",
+        "span_id": "a9f560e6a1cf4b10",
+        "user_id": "943343",
+        "client_ip": "12.58.21.81",
+        "host": null,
+        "error_code": "NET_02",
+        "tags": [],
+        "k8s_namespace": "production",
+        "pod": "pod-26"
+    },
+    {
+        "timestamp": "2025-11-09T02:02:28.970053Z",
+        "service": "inventory",
+        "level": "INFO",
+        "log_type": "transaction",
+        "message": "Service endpoint updated",
+        "trace_id": "f75ae573037049e6ae829fbffc670fd1",
+        "span_id": "2c0c0f06a161470d",
+        "user_id": "608444",
+        "client_ip": "171.186.191.185",
+        "host": "host-424",
+        "error_code": "NET_02",
+        "tags": [
+            "search",
+            "db",
+            "payment"
+        ],
+        "transaction_id": "txn-3694f448df4a",
+        "amount": 326.88,
+        "currency": "EUR"
+    },
+    {
+        "timestamp": "2025-11-08T09:20:28.971146Z",
+        "service": "kube-proxy",
+        "level": "WARN",
+        "log_type": "system",
+        "message": "Cache miss for key",
+        "trace_id": "45bdc18b90f34aba8ba4cb06eafb935b",
+        "span_id": "239a141ffff74546",
+        "user_id": "815467",
+        "client_ip": "114.218.39.150",
+        "host": "host-400",
+        "error_code": "NET_03",
+        "tags": [
+            "payment",
+            "auth"
+        ],
+        "k8s_namespace": "production",
+        "pod": "pod-599"
+    },
+    {
+        "timestamp": "2025-11-08T17:57:28.971146Z",
+        "service": "db",
+        "level": "DEBUG",
+        "log_type": "application",
+        "message": "Failed login attempt",
+        "trace_id": "de0bbc5d18fe477ca526e83b51c6710c",
+        "span_id": "27d59ec50f234aaa",
+        "user_id": "792295",
+        "client_ip": "80.234.133.55",
+        "host": "host-150",
+        "error_code": "ERR001",
+        "tags": [
+            "retry",
+            "payment",
+            "auth"
+        ],
+        "transaction_id": "txn-63d73ea1c1b9",
+        "amount": 498.65,
+        "currency": "INR"
+    },
+    {
+        "timestamp": "2025-11-05T19:42:28.971146Z",
+        "service": "inventory",
+        "level": "DEBUG",
+        "log_type": "application",
+        "message": "System shutdown initiated",
+        "trace_id": "654c91c6c5644601bf884665935e5cbd",
+        "span_id": "f1fec81f59ac468d",
+        "user_id": "854527",
+        "client_ip": "176.17.132.62",
+        "host": "host-405",
+        "error_code": "NET_01",
+        "tags": [
+            "cache",
+            "db"
+        ],
+        "transaction_id": "txn-b015b93b1b2a",
+        "amount": 122.23,
+        "currency": "INR"
+    },
+    {
+        "timestamp": "2025-11-05T00:48:28.971146Z",
+        "service": "db",
+        "level": "INFO",
+        "log_type": "system",
+        "message": "Database connection error",
+        "trace_id": "d01efde39a464d298e0670ee48071b22",
+        "span_id": "9ab44451487446dc",
+        "user_id": null,
+        "client_ip": "190.52.53.239",
+        "host": null,
+        "error_code": "PAY_01",
+        "tags": [
+            "retry",
+            "db",
+            "ingest"
+        ],
+        "transaction_id": "txn-d091afdd659c",
+        "amount": 892.81,
+        "currency": "USD"
+    },
+    {
+        "timestamp": "2025-11-08T13:40:28.971146Z",
+        "service": "inventory",
+        "level": "CRITICAL",
+        "log_type": "cloud_container",
+        "message": "Database connection error",
+        "trace_id": "55275d74043f457886afc6debdca5339",
+        "span_id": "384e115a081f45c3",
+        "user_id": "535742",
+        "client_ip": "93.33.25.144",
+        "host": "host-44",
+        "error_code": "E1002",
+        "tags": [
+            "cache"
+        ],
+        "transaction_id": "txn-9dbf9475072a",
+        "amount": 431.16,
+        "currency": "EUR"
+    },
+    {
+        "timestamp": "2025-11-07T13:26:28.971146Z",
+        "service": "frontend",
+        "level": "WARN",
+        "log_type": "application",
+        "message": "Failed login attempt",
+        "trace_id": "bb699ad1c5134e56a3798c4567cb9765",
+        "span_id": "73e0ea1db3db4986",
+        "user_id": "644169",
+        "client_ip": "183.204.11.93",
+        "host": "host-299",
+        "error_code": "E1001",
+        "tags": [
+            "auth",
+            "search",
+            "ingest"
+        ]
+    },
+    {
+        "timestamp": "2025-11-10T01:35:28.971146Z",
+        "service": "db",
+        "level": "ERROR",
+        "log_type": "cloud_container",
+        "message": "Database connection error",
+        "trace_id": "87c36d468c044299901256e5f67e55cb",
+        "span_id": "f2982e59fc0d4a6e",
+        "user_id": "817961",
+        "client_ip": "142.189.226.10",
+        "host": null,
+        "error_code": "E1002",
+        "tags": [
+            "ingest",
+            "auth"
+        ],
+        "k8s_namespace": "default",
+        "pod": "pod-436"
+    },
+    {
+        "timestamp": "2025-11-08T22:16:28.971146Z",
+        "service": "kube-proxy",
+        "level": "DEBUG",
+        "log_type": "transaction",
+        "message": "Service endpoint updated",
+        "trace_id": "0b1d42ae3c0f4b57adc862b79de423ac",
+        "span_id": "299af9ebbed241c3",
+        "user_id": "809306",
+        "client_ip": "199.186.211.31",
+        "host": "host-275",
+        "error_code": "NET_01",
+        "tags": [
+            "search"
+        ],
+        "transaction_id": "txn-261de922552a",
+        "amount": 626.93,
+        "currency": "INR"
+    },
+    {
+        "timestamp": "2025-11-07T01:11:28.971146Z",
+        "service": "kube-proxy",
+        "level": "INFO",
+        "log_type": "application",
+        "message": "Payment captured",
+        "trace_id": "c06ac2f7b28e4a65a26d5408701b9ed1",
+        "span_id": "e4dca400f6314d0d",
+        "user_id": "416124",
+        "client_ip": "93.20.187.106",
+        "host": null,
+        "error_code": "PAY_01",
+        "tags": [
+            "ingest"
+        ],
+        "transaction_id": "txn-9f42bc56da40",
+        "amount": 225.78,
+        "currency": "INR"
+    },
+    {
+        "timestamp": "2025-11-06T15:58:28.972138Z",
+        "service": "worker",
+        "level": "INFO",
+        "log_type": "application",
+        "message": "Cache miss for key",
+        "trace_id": "eb45bb959d8048208226ba245df4485a",
+        "span_id": "e4497e7dfc504f9d",
+        "user_id": "473116",
+        "client_ip": "123.240.113.4",
+        "host": null,
+        "error_code": "E1002",
+        "tags": [
+            "ingest",
+            "search"
+        ],
+        "transaction_id": "txn-47a37dc32e21",
+        "amount": 443.58,
+        "currency": "INR",
+        "k8s_namespace": "production",
+        "pod": "pod-67"
+    },
+    {
+        "timestamp": "2025-11-03T07:32:28.972138Z",
+        "service": "inventory",
+        "level": "DEBUG",
+        "log_type": "cloud_container",
+        "message": "Service endpoint updated",
+        "trace_id": "ecf7d9ca7038455cbebe87e903a3a94a",
+        "span_id": "748eed8d65834ac4",
+        "user_id": "961112",
+        "client_ip": "110.229.192.42",
+        "host": null,
+        "error_code": "NET_02",
+        "tags": [
+            "db",
+            "retry"
+        ]
+    },
+    {
+        "timestamp": "2025-11-05T21:39:28.972138Z",
+        "service": "kube-proxy",
+        "level": "WARN",
+        "log_type": "security",
+        "message": "Service endpoint updated",
+        "trace_id": "4b2d7722845843e1938e2e4e502cbf17",
+        "span_id": "df3c4aa865304eca",
+        "user_id": "806640",
+        "client_ip": "2.36.205.207",
+        "host": "host-50",
+        "error_code": "ERR001",
+        "tags": [
+            "ingest",
+            "db"
+        ],
+        "transaction_id": "txn-6a3ffe54bec9",
+        "amount": 800.61,
+        "currency": "USD",
+        "k8s_namespace": "production",
+        "pod": "pod-12"
+    },
+    {
+        "timestamp": "2025-11-09T19:02:28.972138Z",
+        "service": "inventory",
+        "level": "WARN",
+        "log_type": "cloud_container",
+        "message": "Failed login attempt",
+        "trace_id": "4d61e92b64424df39c91955e2d9a586b",
+        "span_id": "d1943754199e4f3f",
+        "user_id": "810824",
+        "client_ip": "220.74.170.73",
+        "host": null,
+        "error_code": "ERR001",
+        "tags": [
+            "search"
+        ],
+        "k8s_namespace": "production",
+        "pod": "pod-987"
+    },
+    {
+        "timestamp": "2025-11-06T00:06:28.972138Z",
+        "service": "orders",
+        "level": "CRITICAL",
+        "log_type": "application",
+        "message": "Failed login attempt",
+        "trace_id": "23fbda499a3a4279ae4f9f6a64550055",
+        "span_id": "a12a2d3d04de4402",
+        "user_id": "897195",
+        "client_ip": "128.213.79.40",
+        "host": "host-484",
+        "error_code": "NET_03",
+        "tags": [
+            "cache",
+            "search"
+        ]
+    },
+    {
+        "timestamp": "2025-11-04T18:23:28.973144Z",
+        "service": "billing",
+        "level": "DEBUG",
+        "log_type": "application",
+        "message": "Database connection error",
+        "trace_id": "247e2115e6b7444d8a54c3a57db7e9e3",
+        "span_id": "123d483a9466490d",
+        "user_id": null,
+        "client_ip": "211.30.214.23",
+        "host": "host-427",
+        "error_code": "E1002",
+        "tags": [
+            "ingest",
+            "db"
+        ]
+    },
+    {
+        "timestamp": "2025-11-07T06:15:28.973144Z",
+        "service": "inventory",
+        "level": "DEBUG",
+        "log_type": "transaction",
+        "message": "Database connection error",
+        "trace_id": "d2fa4a7f182841528043b30ea67c2912",
+        "span_id": "81e37f6a8ff3478f",
+        "user_id": "529459",
+        "client_ip": "121.20.203.189",
+        "host": null,
+        "error_code": "NET_01",
+        "tags": [
+            "cache"
+        ],
+        "k8s_namespace": "default",
+        "pod": "pod-643"
+    },
+    {
+        "timestamp": "2025-11-04T19:56:28.974121Z",
+        "service": "orders",
+        "level": "CRITICAL",
+        "log_type": "cloud_container",
+        "message": "Database connection error",
+        "trace_id": "636f2a6d9800461bb7a3835b52f6db0e",
+        "span_id": "6fd2439386b14f60",
+        "user_id": "324144",
+        "client_ip": "171.16.25.98",
+        "host": "host-79",
+        "error_code": "NET_02",
+        "tags": [],
+        "transaction_id": "txn-da178f4d1c38",
+        "amount": 59.87,
+        "currency": "EUR"
+    },
+    {
+        "timestamp": "2025-11-08T10:17:28.975121Z",
+        "service": "inventory",
+        "level": "DEBUG",
+        "log_type": "system",
+        "message": "Failed login attempt",
+        "trace_id": "6f33a2c6ddda4694a8f68542b1f64476",
+        "span_id": "bb8e864b5ef541cc",
+        "user_id": null,
+        "client_ip": "55.218.213.226",
+        "host": null,
+        "error_code": "NET_03",
+        "tags": [
+            "ingest",
+            "search",
+            "db"
+        ],
+        "transaction_id": "txn-5c399aca924b",
+        "amount": 958.73,
+        "currency": "EUR"
+    }
+]
