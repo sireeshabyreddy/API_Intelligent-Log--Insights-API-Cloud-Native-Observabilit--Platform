@@ -30,12 +30,15 @@ servicebus_conn_str = secret_client.get_secret("ServiceBusConnectionString").val
 DEDUP_CACHE_FOLDER="cache"
 # Azure Cognitive Search
 SEARCH_SERVICE_NAME = "intelligent-log-search"
-SEARCH_API_KEY = "COwADWfHZzwCWNaz5l2e9jyw4ct2ADemNXBPYe4u69AzSeAKr4BQ"
-SEARCH_INDEX_NAME = "log-vector-index"
 
-# Azure OpenAI
-AZURE_OPENAI_ENDPOINT = "https://logs-vector-ai.openai.azure.com/"
-AZURE_OPENAI_KEY = "3UH0zbXFpdyjKx0jsKqpe1F4Z6M7tHXsqvAKJyCw6YMJMdMDAGNuJQQJ99BKACYeBjFXJ3w3AAABACOGyYji"
-OPENAI_EMBEDDING_MODEL = "text-embedding-ada-002"
-OPENAI_API_VERSION="2023-05-15"
-COSMOS_CONNECTION_STRING="AccountEndpoint=https://metricsdatabse.documents.azure.com:443/;AccountKey=BVmnqMiF25adqQom2xTbBbGA9ao4ia0L7tji0mywIA6Ne8zoJPpeBFPBw2Vqzl5qFoMJ8oYlQNLpACDbDq0FpQ==;"
+SEARCH_API_KEY = secret_client.get_secret("search-api-key").value
+SEARCH_INDEX_NAME = secret_client.get_secret("search-index-name").value
+
+# ---------------- Azure OpenAI ----------------
+AZURE_OPENAI_ENDPOINT = secret_client.get_secret("azure-openai-endpoint").value
+AZURE_OPENAI_KEY = secret_client.get_secret("azure-openai-key").value
+OPENAI_EMBEDDING_MODEL = secret_client.get_secret("openai-embedding-model").value
+OPENAI_API_VERSION = secret_client.get_secret("openai-api-version").value
+
+# ---------------- Cosmos DB ----------------
+COSMOS_CONNECTION_STRING = secret_client.get_secret("cosmos-connection-string").value
