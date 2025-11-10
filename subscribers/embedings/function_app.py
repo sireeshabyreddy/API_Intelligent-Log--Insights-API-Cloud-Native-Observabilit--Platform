@@ -24,7 +24,6 @@ azure_openai_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
 azure_openai_key = os.getenv("AZURE_OPENAI_KEY")
 embedding_model = "text-embedding-ada-002"
 
-# Validate environment variables
 missing_vars = [
     v for v in ["SEARCH_SERVICE_NAME", "SEARCH_API_KEY", "AZURE_OPENAI_ENDPOINT", "AZURE_OPENAI_KEY"]
     if not os.getenv(v)
@@ -77,12 +76,11 @@ def extract_json_from_text(raw_text: str):
             continue
         try:
             obj = json.loads(line)
-            # Normalize "Message" key if exists
             if "Message" in obj:
                 obj["message"] = obj.pop("Message")
             json_objects.append({"log": obj})
         except json.JSONDecodeError:
-            json_objects.append({"log": {"message": line}})
+            json_objects.append({"log": {"Message": line}})
     return json_objects
 
 # -------------------------------
@@ -90,49 +88,33 @@ def extract_json_from_text(raw_text: str):
 # -------------------------------
 def enrich_log_fields(log_data: dict):
     text = log_data.get("message", "")
-
-    # Extract timestamp (ISO format)
     ts_match = re.search(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?)", text)
     if ts_match:
         log_data["timestamp"] = ts_match.group(1)
-
-    # Example numeric extraction
     cpu_match = re.search(r"cpu(?:_percent)?=(\d+)", text, re.IGNORECASE)
     if cpu_match:
         log_data["cpu_percent"] = int(cpu_match.group(1))
-
     mem_match = re.search(r"mem(?:_mb)?=(\d+)", text, re.IGNORECASE)
     if mem_match:
         log_data["memory_mb"] = int(mem_match.group(1))
-
     resp_match = re.search(r"resp(?:onse)?_ms=(\d+)", text, re.IGNORECASE)
     if resp_match:
         log_data["response_ms"] = int(resp_match.group(1))
-
     return log_data
 
 # -------------------------------
 # Helper: Parse raw log message
 # -------------------------------
 def parse_log_message(raw_message: str):
-    """
-    Extract level, service, and message from raw log line.
-    """
-    parsed = {"level": "", "service": "", "message": ""}
-
-    # Remove ISO timestamp at start
+    parsed = {"level": None, "service": None, "message": None}
     raw_message = re.sub(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z\s*", "", raw_message)
-
-    # Match LEVEL SERVICE: MESSAGE
     m = re.match(r"(\w+)\s+([\w\-]+):\s*(.*)", raw_message)
     if m:
         parsed["level"] = m.group(1)
         parsed["service"] = m.group(2)
         parsed["message"] = m.group(3)
     else:
-        # If regex fails, just keep full message
         parsed["message"] = raw_message.strip()
-
     return parsed
 
 # -------------------------------
@@ -160,39 +142,67 @@ def clean_log_text(log_data: dict):
 def Vectorembeddingsfunc(azservicebus: func.ServiceBusMessage):
     logging.info("🚀 Processing new message from Service Bus topic...")
 
-    # Decode message
+    # Decode message, support both JSON logs and text logs
     try:
         message_body = azservicebus.get_body().decode('utf-8')
         logging.info(f"Received message (truncated): {message_body[:200]}...")
         message_json = json.loads(message_body)
     except json.JSONDecodeError:
-        # Treat entire message as raw text if not JSON
         message_json = {"log": {"Message": message_body}, "rule": "raw-text"}
     except Exception:
         logging.error(f"Failed to decode message:\n{traceback.format_exc()}")
         return
 
-    # Treat entire message as single log line
-    raw_message = message_json.get("log", {}).get("Message", "").strip()
-    if not raw_message:
-        logging.warning(f"Skipping empty message: {azservicebus.message_id}")
-        return
+    log = message_json.get("log", {})
+    # If "Message" field present, parse and merge with log
+    if "Message" in log:
+        raw_message = log["Message"].strip()
+        parsed = parse_log_message(raw_message)
+        log = {**log, **parsed}   # Merge original log fields & parsed text fields
 
-    # Parse and enrich
-    parsed = parse_log_message(raw_message)
+    # Enrich log fields
+    log = enrich_log_fields(log)
+
+    # Build log_data with all possible fields (None if missing!)
     log_data = {
         "id": str(uuid.uuid4()),
-        "message": parsed.get("message", ""),
-        "level": parsed.get("level", ""),
-        "service": parsed.get("service", ""),
-        "timestamp": None,
-        "cpu_percent": None,
-        "memory_mb": None,
-        "response_ms": None,
-        "log_type": message_json.get("rule", ""),
-        # Add other default fields as needed
+        "service": log.get("service", None),
+        "level": log.get("level", None),
+        "log_type": log.get("logtype", message_json.get("rule", None)),
+        "message": log.get("message", None),
+        "timestamp": log.get("timestamp", None),
+        "trace_id": log.get("traceid", None),
+        "span_id": log.get("spanid", None),
+        "user_id": log.get("userid", None),
+        "client_ip": log.get("clientip", None),
+        "dst_ip": log.get("dstip", None),
+        "host": log.get("host", None),
+        "pod": log.get("pod", None),
+        "k8s_namespace": log.get("k8snamespace", None),
+        "transaction_id": log.get("transactionid", None),
+        "amount": log.get("amount", None),
+        "currency": log.get("currency", None),
+        "cpu_percent": log.get("cpupercent", None),
+        "memory_mb": log.get("memorymb", None),
+        "response_ms": log.get("responsems", None),
+        "bytes_in": log.get("bytesin", None),
+        "bytes_out": log.get("bytesout", None),
+        "error_code": log.get("errorcode", None),
+        "tags": log.get("tags", None),
+        "warning_code": log.get("warningcode", None),
+        "event_code": log.get("eventcode", None),
+        "severity": log.get("severity", None),
+        "module": log.get("module", None),
+        "env": log.get("env", None),
+        "request_id": log.get("requestid", None),
+        "session_id": log.get("sessionid", None),
+        "user_agent": log.get("useragent", None),
+        "url": log.get("url", None),
+        "method": log.get("method", None),
+        "status": log.get("status", None),
+        "details": log.get("details", None),
+        "category": log.get("category", None),
     }
-    log_data = enrich_log_fields(log_data)
 
     # Prepare text for embedding
     text_to_embed = clean_log_text(log_data)

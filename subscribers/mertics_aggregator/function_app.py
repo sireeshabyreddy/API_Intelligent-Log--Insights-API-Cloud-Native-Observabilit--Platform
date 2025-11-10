@@ -2,17 +2,18 @@ import azure.functions as func
 import logging
 import json
 import os
+import re
 from datetime import datetime, timezone
 from azure.cosmos import CosmosClient
 from azure.storage.blob import BlobServiceClient
 
-# ----------------- CONFIGURATION -----------------
+# ----------- CONFIGURATION -----------
 DB_NAME = "MetricsDB"
 CONTAINER_NAME = "Metrics"
 ERROR_THRESHOLD_PERCENT = 5
 BATCH_WRITE_LIMIT = 50
 
-# ----------------- COSMOS DB INITIALIZATION -----------------
+# ----------- COSMOS DB INITIALIZATION -----------
 COSMOS_CONNECTION_STRING = os.environ.get("COSMOS_CONNECTION_STRING")
 metrics_container = None
 
@@ -27,7 +28,7 @@ if COSMOS_CONNECTION_STRING:
 else:
     logging.warning("COSMOS_CONNECTION_STRING not set. Metrics will not be persisted.")
 
-# ----------------- BLOB STORAGE INITIALIZATION -----------------
+# ----------- BLOB STORAGE INITIALIZATION -----------
 BLOB_CONNECTION_STRING = os.environ.get("BLOB_CONNECTION_STRING")
 BLOB_CONTAINER = os.environ.get("BLOB_CONTAINER", "alerts-logs")
 blob_service_client = None
@@ -40,27 +41,50 @@ if BLOB_CONNECTION_STRING:
         try:
             container_client.create_container()
         except Exception:
-            pass  # container already exists
+            pass
         logging.info("Connected to Blob Storage successfully.")
     except Exception as e:
         logging.error(f"Blob Storage initialization failed: {str(e)}")
 else:
     logging.warning("BLOB_CONNECTION_STRING not set. Alerts will not be persisted.")
 
-# ----------------- FUNCTION APP -----------------
 app = func.FunctionApp()
-
-# ----------------- GLOBAL BATCH -----------------
 metric_batch = {}
 
-# ----------------- HELPER FUNCTIONS -----------------
+# ----------- LOG PARSING HELPERS -----------
+
+def parse_log_message(raw_message: str):
+    parsed = {"level": "", "service": "", "message": ""}
+    # Remove ISO timestamp at start
+    raw_message = re.sub(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z\s*", "", raw_message)
+    # Match LEVEL SERVICE: MESSAGE
+    m = re.match(r"(\w+)\s+([\w\-]+):\s*(.*)", raw_message)
+    if m:
+        parsed["level"] = m.group(1)
+        parsed["service"] = m.group(2)
+        parsed["message"] = m.group(3)
+    else:
+        parsed["message"] = raw_message.strip()
+    return parsed
+
+def enrich_log_fields(log_data: dict):
+    text = log_data.get("message", "")
+    # Extract timestamp (ISO format)
+    ts_match = re.search(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?)", text)
+    if ts_match:
+        log_data["timestamp"] = ts_match.group(1)
+    resp_match = re.search(r"resp(?:onse)?_ms=(\d+)", text, re.IGNORECASE)
+    if resp_match:
+        log_data["response_ms"] = int(resp_match.group(1))
+    # Add similar extraction if needed for user_id, error_code, component, k8s_namespace, amount, etc.
+    return log_data
+
+# ----------- METRICS AGGREGATION -----------
+
 def compute_derived_metrics(metric_doc: dict) -> dict:
-    total = metric_doc.get("total_logs", 1) or 1  # avoid division by zero
-    metric_doc["avg_cpu"] = round(metric_doc.get("cpu_sum", 0) / total, 2)
-    metric_doc["avg_memory"] = round(metric_doc.get("memory_sum", 0) / total, 2)
-    metric_doc["avg_latency"] = round(metric_doc.get("latency_sum", 0) / total, 2)
+    total = metric_doc.get("total_logs", 1) or 1
     metric_doc["error_rate_percent"] = round((metric_doc.get("error_logs", 0) / total) * 100, 2)
-    metric_doc["throughput_per_min"] = total
+    metric_doc["avg_latency"] = round(metric_doc.get("latency_sum", 0) / total, 2)
     return metric_doc
 
 def log_alert(metric_doc: dict, service: str):
@@ -84,47 +108,29 @@ def update_metric_doc(metric_doc: dict, log: dict) -> dict:
     metric_doc["total_logs"] = metric_doc.get("total_logs", 0) + 1
     metric_doc["error_logs"] = metric_doc.get("error_logs", 0) + (1 if level == "error" else 0)
     metric_doc["warning_logs"] = metric_doc.get("warning_logs", 0) + (1 if level == "warning" else 0)
-
-    metric_doc["cpu_sum"] = metric_doc.get("cpu_sum", 0) + log.get("cpu_percent", 0)
-    metric_doc["max_cpu"] = max(metric_doc.get("max_cpu", 0), log.get("cpu_percent", 0))
-
-    metric_doc["memory_sum"] = metric_doc.get("memory_sum", 0) + log.get("memory_mb", 0)
-    metric_doc["max_memory"] = max(metric_doc.get("max_memory", 0), log.get("memory_mb", 0))
-
     metric_doc["latency_sum"] = metric_doc.get("latency_sum", 0) + log.get("response_ms", 0)
     metric_doc["max_latency"] = max(metric_doc.get("max_latency", 0), log.get("response_ms", 0))
-
-    metric_doc["bytes_in"] = metric_doc.get("bytes_in", 0) + log.get("bytes_in", 0)
-    metric_doc["bytes_out"] = metric_doc.get("bytes_out", 0) + log.get("bytes_out", 0)
-
     metric_doc["transactions_sum"] = metric_doc.get("transactions_sum", 0) + (log.get("amount") or 0)
     metric_doc["transactions_count"] = metric_doc.get("transactions_count", 0) + (1 if "amount" in log else 0)
-
     user_id = str(log.get("user_id", "unknown"))
     user_requests = metric_doc.get("user_requests", {})
     user_requests[user_id] = user_requests.get(user_id, 0) + 1
     metric_doc["user_requests"] = user_requests
-
     err_code = log.get("error_code")
     error_code_freq = metric_doc.get("error_code_freq", {})
     if err_code:
         error_code_freq[err_code] = error_code_freq.get(err_code, 0) + 1
     metric_doc["error_code_freq"] = error_code_freq
-
     comp = log.get("component")
     component_count = metric_doc.get("component_count", {})
     if comp:
         component_count[comp] = component_count.get(comp, 0) + 1
     metric_doc["component_count"] = component_count
-
     ns = log.get("k8s_namespace")
     namespace_count = metric_doc.get("namespace_count", {})
     if ns:
         namespace_count[ns] = namespace_count.get(ns, 0) + 1
     metric_doc["namespace_count"] = namespace_count
-
-    metric_doc["semantic_anomalies"] = metric_doc.get("semantic_anomalies", 0)
-
     return compute_derived_metrics(metric_doc)
 
 def upsert_metrics_batch():
@@ -137,7 +143,6 @@ def upsert_metrics_batch():
                 logging.error(f"Failed to upsert metric doc {doc_id}: {str(e)}")
         metric_batch = {}
 
-# ----------------- SERVICE BUS TRIGGER -----------------
 @app.service_bus_topic_trigger(
     arg_name="azservicebus",
     subscription_name="metrics-subscriber",
@@ -148,15 +153,31 @@ def metricsaggregator(azservicebus: func.ServiceBusMessage):
     global metric_batch
     try:
         message_body = azservicebus.get_body().decode('utf-8')
-        msg = json.loads(message_body)
-
+        # Try JSON first
+        try:
+            msg = json.loads(message_body)
+        except json.JSONDecodeError:
+            msg = {"log": {"Message": message_body}}
         log = msg.get("log", {})
-        service = log.get("service", "unknown")
+        # If Message field exists, parse and enrich it
+        if "Message" in log:
+            raw_message = log["Message"].strip()
+            parsed = parse_log_message(raw_message)
+            log = {
+                "message": parsed.get("message", ""),
+                "level": parsed.get("level", ""),
+                "service": parsed.get("service", ""),
+            }
+            log = enrich_log_fields(log)
+        else:
+            # For JSON logs, run enrich on message
+            log = enrich_log_fields(log)
 
+        service = log.get("service", "unknown")
         timestamp_str = log.get("timestamp")
         try:
             timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00")) if timestamp_str else datetime.utcnow()
-        except ValueError:
+        except Exception:
             timestamp = datetime.utcnow()
 
         metric_id = f"{service}-{timestamp.strftime('%Y-%m-%d-%H-%M')}"
@@ -166,23 +187,15 @@ def metricsaggregator(azservicebus: func.ServiceBusMessage):
             "total_logs": 0,
             "error_logs": 0,
             "warning_logs": 0,
-            "cpu_sum": 0,
-            "max_cpu": 0,
-            "memory_sum": 0,
-            "max_memory": 0,
             "latency_sum": 0,
             "max_latency": 0,
-            "bytes_in": 0,
-            "bytes_out": 0,
             "transactions_sum": 0,
             "transactions_count": 0,
             "user_requests": {},
             "error_code_freq": {},
             "component_count": {},
             "namespace_count": {},
-            "semantic_anomalies": 0
         })
-
         metric_doc = update_metric_doc(metric_doc, log)
         metric_batch[metric_id] = metric_doc
 
@@ -191,8 +204,5 @@ def metricsaggregator(azservicebus: func.ServiceBusMessage):
 
         if len(metric_batch) >= BATCH_WRITE_LIMIT:
             upsert_metrics_batch()
-
-    except json.JSONDecodeError:
-        logging.error("Failed to decode message body as JSON")
     except Exception as e:
         logging.error(f"Failed to process message: {str(e)}")
