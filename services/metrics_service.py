@@ -21,12 +21,7 @@ else:
 
 
 # ----------------- QUERY FUNCTIONS -----------------
-def get_metrics_by_service(service_name: str, top: int = 50):
-    if not metrics_container:
-        return []
-    query = f"SELECT * FROM c WHERE c.service = '{service_name}' ORDER BY c.id DESC"
-    items = list(metrics_container.query_items(query=query, enable_cross_partition_query=True))
-    return items[:top]
+
 
 def get_metrics_summary(top: int = 50):
     if not metrics_container:

@@ -15,21 +15,7 @@ app = FastAPI(title="Metrics API", version="1.0")
 metrics_router = APIRouter(prefix="/metrics", tags=["Metrics"])
 
 
-# ---------------------------------------------------
-# GET METRICS FOR A GIVEN SERVICE
-# ---------------------------------------------------
-@metrics_router.get("/service/{service_name}")
-def get_metrics_service(service_name: str, top: int = Query(50, ge=1, le=100)):
-    try:
-        metrics = get_metrics_by_service(service_name, top)
-        return {"service": service_name, "top": top, "metrics": metrics}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"CosmosDB query failed: {e}")
 
-
-# ---------------------------------------------------
-# GET LATEST METRICS (SUMMARY)
-# ---------------------------------------------------
 @metrics_router.get("/latest")
 def get_metrics_summary_route(top: int = Query(50, ge=1, le=100)):
     try:
