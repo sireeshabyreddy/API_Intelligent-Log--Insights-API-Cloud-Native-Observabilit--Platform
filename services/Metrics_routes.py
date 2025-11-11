@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query, HTTPException, APIRouter
 from services.metrics_service import (
-    get_metrics_by_service,
+
     get_metrics_summary,
     get_metrics_anomalies,
     get_avg_cpu_by_service,
