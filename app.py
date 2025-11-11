@@ -15,9 +15,6 @@ from parse_logs  import load_dedup_cache, save_dedup_cache
 import services.cosmos_service as cosmos_service
 from services.cosmos_logs_router import router
 from services.Metrics_routes import metrics_router  
-# -----------------------
-# FastAPI app
-# -----------------------
 
 
 
