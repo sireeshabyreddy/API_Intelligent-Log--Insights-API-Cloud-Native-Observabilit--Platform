@@ -5,6 +5,8 @@ app = FastAPI(title="Metrics API", version="1.0")
 # ----------------- METRICS ROUTER -----------------
 from fastapi import APIRouter
 # ----------------- ROOT -----------------
+from metrics_service import get_avg_cpu_by_service, get_avg_memory_by_service, get_max_latency_by_service, get_error_rate_by_service, get_metrics_anomalies
+
 @app.get("/")
 def root():
     return {"message": "Welcome to Metrics API"}
@@ -67,6 +69,7 @@ def error_rate(service_name: str):
         return {"service": service_name, "error_rate_percent": data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 
 

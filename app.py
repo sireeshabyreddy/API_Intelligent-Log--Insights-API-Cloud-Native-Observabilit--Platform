@@ -18,8 +18,6 @@ from services.Metrics_routes import metrics_router
 # -----------------------
 # FastAPI app
 # -----------------------
-from services.metrics_service import get_avg_cpu_by_service, get_avg_memory_by_service, get_max_latency_by_service, get_error_rate_by_service, get_metrics_anomalies
-
 
 
 
@@ -144,13 +142,3 @@ async def send_logs_api(
 
 app.include_router(router)
 app.include_router(metrics_router)
-@app.get("/health/{service_name}")
-def health(service_name: str):
-    return {
-        "service": service_name,
-        "avg_cpu": get_avg_cpu_by_service(service_name),
-        "avg_memory": get_avg_memory_by_service(service_name),
-        "max_latency_ms": get_max_latency_by_service(service_name),
-        "error_rate_percent": get_error_rate_by_service(service_name)[0] if get_error_rate_by_service(service_name) else 0,
-        "recent_anomalies": get_metrics_anomalies(5)
-    }
