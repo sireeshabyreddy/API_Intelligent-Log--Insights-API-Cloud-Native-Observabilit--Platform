@@ -68,13 +68,7 @@ def error_rate(service_name: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@metrics_router.get("/top-users/{service_name}")
-def top_users(service_name: str, top: int = Query(5, ge=1, le=20)):
-    try:
-        data = metrics_service.get_top_users_by_requests(service_name, top)
-        return {"service": service_name, "top_users": data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+
 
 
 

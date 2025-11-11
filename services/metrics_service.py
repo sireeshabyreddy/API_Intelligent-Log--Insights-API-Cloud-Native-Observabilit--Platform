@@ -70,38 +70,3 @@ def get_error_rate_by_service(service_name: str):
     items = list(metrics_container.query_items(query=query, enable_cross_partition_query=True))
     return items
 
-def get_top_users_by_requests(service_name: str, top: int = 5):
-    if not metrics_container:
-        return []
-    
-    query = f"SELECT c.user_requests FROM c WHERE c.service = '{service_name}'"
-    items = list(metrics_container.query_items(query=query, enable_cross_partition_query=True))
-    
-    # Aggregate all user requests
-    aggregate_requests = {}
-    for item in items:
-        for user_id, count in item.get("user_requests", {}).items():
-            aggregate_requests[user_id] = aggregate_requests.get(user_id, 0) + count
-    
-    # Sort by request count descending
-    sorted_users = sorted(aggregate_requests.items(), key=lambda x: x[1], reverse=True)
-    
-    return sorted_users[:top]
-
-def get_component_distribution(service_name: str):
-    if not metrics_container:
-        return []
-    query = f"SELECT c.component_count FROM c WHERE c.service = '{service_name}' ORDER BY c.id DESC"
-    items = list(metrics_container.query_items(query=query, enable_cross_partition_query=True))
-    if items:
-        return items[0].get("component_count", {})
-    return {}
-
-def get_namespace_distribution(service_name: str):
-    if not metrics_container:
-        return []
-    query = f"SELECT c.namespace_count FROM c WHERE c.service = '{service_name}' ORDER BY c.id DESC"
-    items = list(metrics_container.query_items(query=query, enable_cross_partition_query=True))
-    if items:
-        return items[0].get("namespace_count", {})
-    return {}
